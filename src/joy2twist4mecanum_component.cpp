@@ -15,6 +15,10 @@ namespace joy2twist4mecanum {
   Joy2Twist4Mecanum::Joy2Twist4Mecanum(const rclcpp::NodeOptions &options)
     : Node("joy2twist4mecanum", options),
       twist_(rosidl_generator_cpp::MessageInitialization::ZERO),
+      enable_button_(0),
+      x_axis_(0),
+      y_axis_(0),
+      yaw_axis_(0),
       wheel_radius_(0.0),
       wheel_tread_half_(0.0),
       max_wheel_ang_vel_(0.0)
@@ -30,19 +34,31 @@ namespace joy2twist4mecanum {
              std::bind(&Joy2Twist4Mecanum::joyCallback, this, _1));
 
     // Initialize and declare parameters and substitute into member variables
-    enable_button_ = this->declare_parameter("enable_button", 1);
-    wheel_radius_ = this->declare_parameter("wheel_radius", 0.022);
-    wheel_tread_half_ = this->declare_parameter("wheel_tread_half", 0.045);
-    max_wheel_ang_vel_ = this->declare_parameter("max_wheel_ang_vel", 5.7596);
-    x_axis_ = this->declare_parameter("x_axis", 1);
-    y_axis_ = this->declare_parameter("y_axis", 0);
-    yaw_axis_ = this->declare_parameter("yaw_axis", 2);
+    this->declare_parameter("wheel_radius", 0.022);
+    this->declare_parameter("wheel_tread_half", 0.045);
+    this->declare_parameter("max_wheel_ang_vel", 5.7596);
+    this->declare_parameter("enable_button", 1);
+    this->declare_parameter("x_axis", 1);
+    this->declare_parameter("y_axis", 0);
+    this->declare_parameter("yaw_axis", 2);
+
+    wheel_radius_ = this->get_parameter("wheel_radius").get_value<double>();
+    wheel_tread_half_ = this->get_parameter("wheel_tread_half").get_value<double>();
+    max_wheel_ang_vel_ = this->get_parameter("max_wheel_ang_vel").get_value<double>();
+    enable_button_ = this->get_parameter("enable_button").get_value<int64_t>();
+    x_axis_ = this->get_parameter("x_axis").get_value<int64_t>();
+    y_axis_ = this->get_parameter("y_axis").get_value<int64_t>();
+    yaw_axis_ = this->get_parameter("yaw_axis").get_value<int64_t>();
 
     // Debug message
     RCLCPP_INFO(this->get_logger(), "Joy to Twist for Mecanum node has Initialized.");
     RCLCPP_INFO(this->get_logger(), "Wheel radius is %f [m].", wheel_radius_);
     RCLCPP_INFO(this->get_logger(), "Wheel tread is %f [m].", wheel_tread_half_ * 2);
     RCLCPP_INFO(this->get_logger(), "Maximum angular velocity of wheel is %f [rad/s].", max_wheel_ang_vel_);
+    RCLCPP_INFO(this->get_logger(), "Enable button is %d", enable_button_);
+    RCLCPP_INFO(this->get_logger(), "X axis is %d", x_axis_);
+    RCLCPP_INFO(this->get_logger(), "Y axis is %d", y_axis_);
+    RCLCPP_INFO(this->get_logger(), "Yaw axis is %d", yaw_axis_);
   }
 
   void Joy2Twist4Mecanum::publishTwist(const sensor_msgs::msg::Joy::SharedPtr joy_msg) {

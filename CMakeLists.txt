@@ -40,12 +40,27 @@ ament_target_dependencies(joy2twist4mecanum_component
 rclcpp_components_register_nodes(joy2twist4mecanum_component
   "joy2twist4mecanum::Joy2Twist4Mecanum")
 
+add_executable(joy2twist4mecanum_node src/joy2twist4mecanum_node.cpp)
+target_link_libraries(joy2twist4mecanum_node joy2twist4mecanum_component)
+ament_target_dependencies(joy2twist4mecanum_node
+  "rclcpp"
+  "rclcpp_components"
+  "class_loader"
+  "std_msgs"
+  "sensor_msgs"
+  "geometry_msgs"
+)
+
 install(TARGETS
   joy2twist4mecanum_component
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin
 )
+
+install(TARGETS
+  joy2twist4mecanum_node
+  DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)

@@ -1,0 +1,9 @@
+joy2twist4mecanum:
+  ros__parameters:
+    wheel_radius: 0.022
+    wheel_tread_half: 0.045
+    max_wheel_ang_vel: 5.7596
+    enable_button: 5
+    x_axis: 1
+    y_axis: 0
+    yaw_axis: 2

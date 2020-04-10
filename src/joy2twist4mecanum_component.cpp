@@ -37,6 +37,12 @@ namespace joy2twist4mecanum {
     x_axis_ = this->declare_parameter("x_axis", 1);
     y_axis_ = this->declare_parameter("y_axis", 0);
     yaw_axis_ = this->declare_parameter("yaw_axis", 2);
+
+    // Debug message
+    RCLCPP_INFO(this->get_logger(), "Joy to Twist for Mecanum node has Initialized.");
+    RCLCPP_INFO(this->get_logger(), "Wheel radius is %f [m].", wheel_radius_);
+    RCLCPP_INFO(this->get_logger(), "Wheel tread is %f [m].", wheel_tread_half_ * 2);
+    RCLCPP_INFO(this->get_logger(), "Maximum angular velocity of wheel is %f [rad/s].", max_wheel_ang_vel_);
   }
 
   void Joy2Twist4Mecanum::publishTwist(const sensor_msgs::msg::Joy::SharedPtr joy_msg) {

@@ -35,6 +35,8 @@ namespace joy2twist4mecanum {
       double wheel_tread_half_;
       double max_wheel_ang_vel_;
 
+      bool sent_disable_msg_;
+
       // Callback function for Joy message
       void joyCallback(const sensor_msgs::msg::Joy::SharedPtr msg);
       // function that publish computed twist message

@@ -97,6 +97,7 @@ namespace joy2twist4mecanum {
       twist_.angular.z = (coeff * gamma * vel_max) / (2 * wheel_tread_half_ * denom);
 
       twist_pub_->publish(twist_);
+      sent_disable_msg_ = false;
     }   
   }
 
@@ -105,8 +106,11 @@ namespace joy2twist4mecanum {
         msg->buttons[enable_button_]) {
       this->publishTwist(msg);
     } else {
-      auto cmd_vel_msg = std::make_unique<geometry_msgs::msg::Twist>();
-      twist_pub_->publish(std::move(cmd_vel_msg));
+      if (!sent_disable_msg_) {
+        auto cmd_vel_msg = std::make_unique<geometry_msgs::msg::Twist>();
+        twist_pub_->publish(std::move(cmd_vel_msg));
+        sent_disable_msg_ = true;
+      }
     }
   }
 } // namespace joy2twist4mecanum 

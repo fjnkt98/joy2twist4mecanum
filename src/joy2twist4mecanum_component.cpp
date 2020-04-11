@@ -13,7 +13,7 @@ using namespace std::chrono_literals;
 
 namespace joy2twist4mecanum {
   Joy2Twist4Mecanum::Joy2Twist4Mecanum(const rclcpp::NodeOptions &options)
-    : Node("joy2twist4mecanum", options),
+    : Node("joy2twist4mecanum_node", options),
       twist_(rosidl_generator_cpp::MessageInitialization::ZERO),
       enable_button_(0),
       x_axis_(0),

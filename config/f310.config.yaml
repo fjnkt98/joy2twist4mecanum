@@ -1,4 +1,4 @@
-joy2twist4mecanum:
+joy2twist4mecanum_node:
   ros__parameters:
     wheel_radius: 0.022
     wheel_tread_half: 0.045
